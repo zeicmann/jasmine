@@ -1,4 +1,4 @@
-describe('AsyncExpectation', function() {
+xdescribe('AsyncExpectation', function() {
   beforeEach(function() {
     jasmineUnderTest.Expectation.addAsyncCoreMatchers(
       jasmineUnderTest.asyncMatchers

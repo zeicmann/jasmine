@@ -1,4 +1,4 @@
-describe('SetContaining', function() {
+xdescribe('SetContaining', function() {
   function SetI(iterable) {    // for IE11
     var set = new Set();
     iterable.forEach(function(v) {

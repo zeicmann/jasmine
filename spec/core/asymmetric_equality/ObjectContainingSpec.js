@@ -1,4 +1,4 @@
-describe("ObjectContaining", function() {
+xdescribe("ObjectContaining", function() {
 
   it("matches any actual to an empty object", function() {
     var containing = new jasmineUnderTest.ObjectContaining({});

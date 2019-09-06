@@ -1,4 +1,4 @@
-describe("matchersUtil", function() {
+xdescribe("matchersUtil", function() {
   describe("equals", function() {
     it("passes for literals that are triple-equal", function() {
       expect(jasmineUnderTest.matchersUtil.equals(null, null)).toBe(true);

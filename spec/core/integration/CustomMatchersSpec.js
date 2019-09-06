@@ -57,7 +57,7 @@ describe("Custom Matchers (Integration)", function() {
     env.execute();
   });
 
-  it("passes the spec if the custom equality matcher passes for types nested inside asymmetric equality testers", function(done) {
+  xit("passes the spec if the custom equality matcher passes for types nested inside asymmetric equality testers", function(done) {
     env.it("spec using custom equality matcher", function() {
       var customEqualityFn = function(a, b) {
         // All "foo*" strings match each other.

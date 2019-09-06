@@ -294,6 +294,19 @@ getJasmineRequireObj().Env = function(j$) {
       }
     };
 
+    // TODO: Probably need to document this. Tough to make asymmetric equality testers work right without it.
+    this.getMatchersUtil = function() {
+      if (!currentRunnable()) {
+        throw new Error(
+          'getMatchersUtil() must be called in a before function or a spec'
+        );
+      }
+
+      return new j$.MatchersUtil(
+        runnableResources[currentRunnable().id].customEqualityTesters
+      );
+    };
+
     j$.Expectation.addCoreMatchers(j$.matchers);
     j$.Expectation.addAsyncCoreMatchers(j$.asyncMatchers);
 
@@ -309,7 +322,7 @@ getJasmineRequireObj().Env = function(j$) {
 
     var expectationFactory = function(actual, spec) {
       return j$.Expectation.factory({
-        util: j$.matchersUtil,
+        util: self.getMatchersUtil(),
         customEqualityTesters: runnableResources[spec.id].customEqualityTesters,
         customMatchers: runnableResources[spec.id].customMatchers,
         actual: actual,
@@ -323,7 +336,7 @@ getJasmineRequireObj().Env = function(j$) {
 
     var asyncExpectationFactory = function(actual, spec) {
       return j$.Expectation.asyncFactory({
-        util: j$.matchersUtil,
+        util: self.getMatchersUtil(),
         customEqualityTesters: runnableResources[spec.id].customEqualityTesters,
         customAsyncMatchers: runnableResources[spec.id].customAsyncMatchers,
         actual: actual,

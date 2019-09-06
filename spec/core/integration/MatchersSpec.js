@@ -1,6 +1,6 @@
 describe('Matchers (Integration)', function() {
-  function verifyPasses(expectations) {
-    it('passes', function(done) {
+  function verifyPasses(expectations, name) {
+    it(name || 'passes', function(done) {
       var env = new jasmineUnderTest.Env();
       env.it('a spec', function() {
         expectations(env);
@@ -48,8 +48,8 @@ describe('Matchers (Integration)', function() {
     });
   }
 
-  function verifyPassesAsync(expectations) {
-    it('passes', function(done) {
+  function verifyPassesAsync(expectations, name) {
+    it(name || 'passes', function(done) {
       jasmine.getEnv().requirePromises();
       var env = new jasmineUnderTest.Env();
 
@@ -264,6 +264,13 @@ describe('Matchers (Integration)', function() {
       return env.expectAsync(Promise.resolve('foo')).toBeResolvedTo('foo');
     });
 
+    verifyPassesAsync(function(env) {
+      env.addCustomEqualityTester(function(a, b) {
+        return a === 'foo' && b === 'bar';
+      });
+      return env.expectAsync(Promise.resolve('foo')).toBeResolvedTo('bar');
+    }, 'supports custom equality testers');
+
     verifyFailsAsync(function(env) {
       return env.expectAsync(Promise.resolve('foo')).toBeResolvedTo('bar');
     });
@@ -283,6 +290,11 @@ describe('Matchers (Integration)', function() {
     verifyPassesAsync(function(env) {
       return env.expectAsync(Promise.reject('nope')).toBeRejectedWith('nope');
     });
+
+    verifyPassesAsync(function(env) {
+      env.addCustomEqualityTester(function(a, b) { return a === 'yep' && b === 'nope'; });
+      return env.expectAsync(Promise.reject('yep')).toBeRejectedWith('nope');
+    }, 'supports custom equality testers');
 
     verifyFailsAsync(function(env) {
       return env.expectAsync(Promise.resolve()).toBeRejectedWith('nope');
@@ -334,6 +346,13 @@ describe('Matchers (Integration)', function() {
       env.expect('foobar').toContain('oo');
     });
 
+    verifyPasses(function(env) {
+      env.addCustomEqualityTester(function(a, b) {
+        return a === 1 && b === 2;
+      });
+      env.expect([1]).toContain(2);
+    }, 'supports custom equality testers');
+
     verifyFails(function(env) {
       env.expect('bar').toContain('oo');
     });
@@ -343,6 +362,13 @@ describe('Matchers (Integration)', function() {
     verifyPasses(function(env) {
       env.expect('a').toEqual('a');
     });
+
+    verifyPasses(function(env) {
+      env.addCustomEqualityTester(function(a, b) {
+        return a === 'a' && b === 'b';
+      });
+      env.expect('a').toEqual('b');
+    }, 'supports custom equality testers');
 
     verifyFails(function(env) {
       env.expect('a').toEqual('b');
@@ -397,6 +423,15 @@ describe('Matchers (Integration)', function() {
       spy('foo');
       env.expect(spy).toHaveBeenCalledWith('foo');
     });
+
+    verifyPasses(function(env) {
+      var spy = env.createSpy();
+      env.addCustomEqualityTester(function(a, b) {
+         return a[0] === 'foo' && b[0] === 'foo';
+      });
+      spy('foo');
+      env.expect(spy).toHaveBeenCalledWith('foo');
+    }, 'supports custom equality testers');
 
     verifyFails(function(env) {
       var spy = env.createSpy();

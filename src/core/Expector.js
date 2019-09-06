@@ -12,6 +12,12 @@ getJasmineRequireObj().Expector = function(j$) {
     matcherFactory,
     args
   ) {
+    if (matcherFactory.length >= 2) {
+      console.log(
+        'Deprecation warning: customEqualityTesters will no longer be passed to matchers'
+      );
+    }
+
     this.matcherName = matcherName;
     this.args = Array.prototype.slice.call(args, 0);
     this.expected = this.args.slice(0);

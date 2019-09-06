@@ -1,6 +1,6 @@
 describe("toBe", function() {
   it("passes with no message when actual === expected", function() {
-    var matcher = jasmineUnderTest.matchers.toBe(jasmineUnderTest.matchersUtil),
+    var matcher = jasmineUnderTest.matchers.toBe(new jasmineUnderTest.MatchersUtil([])),
       result;
 
     result = matcher.compare(1, 1);
@@ -8,7 +8,7 @@ describe("toBe", function() {
   });
 
   it("passes with a custom message when expected is an array", function() {
-    var matcher = jasmineUnderTest.matchers.toBe(jasmineUnderTest.matchersUtil),
+    var matcher = jasmineUnderTest.matchers.toBe(new jasmineUnderTest.MatchersUtil([])),
       result,
       array = [1];
 
@@ -18,7 +18,7 @@ describe("toBe", function() {
   });
 
   it("passes with a custom message when expected is an object", function() {
-    var matcher = jasmineUnderTest.matchers.toBe(jasmineUnderTest.matchersUtil),
+    var matcher = jasmineUnderTest.matchers.toBe(new jasmineUnderTest.MatchersUtil([])),
       result,
       obj = {foo: "bar"};
 
@@ -28,7 +28,7 @@ describe("toBe", function() {
   });
 
   it("fails with no message when actual !== expected", function() {
-    var matcher = jasmineUnderTest.matchers.toBe(jasmineUnderTest.matchersUtil),
+    var matcher = jasmineUnderTest.matchers.toBe(new jasmineUnderTest.MatchersUtil([])),
       result;
 
     result = matcher.compare(1, 2);
@@ -37,7 +37,7 @@ describe("toBe", function() {
   });
 
   it("fails with a custom message when expected is an array", function() {
-    var matcher = jasmineUnderTest.matchers.toBe(jasmineUnderTest.matchersUtil),
+    var matcher = jasmineUnderTest.matchers.toBe(new jasmineUnderTest.MatchersUtil([])),
       result;
 
     result = matcher.compare([1], [1]);
@@ -46,7 +46,7 @@ describe("toBe", function() {
   });
 
   it("fails with a custom message when expected is an object", function() {
-    var matcher = jasmineUnderTest.matchers.toBe(jasmineUnderTest.matchersUtil),
+    var matcher = jasmineUnderTest.matchers.toBe(new jasmineUnderTest.MatchersUtil([])),
       result;
 
     result = matcher.compare({foo: "bar"}, {foo: "bar"});

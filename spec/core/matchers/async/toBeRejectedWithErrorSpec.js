@@ -2,7 +2,7 @@ describe('#toBeRejectedWithError', function () {
   it('passes when Error type matches', function () {
     jasmine.getEnv().requirePromises();
 
-    var matcher = jasmineUnderTest.asyncMatchers.toBeRejectedWithError(jasmineUnderTest.matchersUtil),
+    var matcher = jasmineUnderTest.asyncMatchers.toBeRejectedWithError(new jasmineUnderTest.MatchersUtil([])),
       actual = Promise.reject(new TypeError('foo'));
 
     return matcher.compare(actual, TypeError).then(function (result) {
@@ -16,7 +16,7 @@ describe('#toBeRejectedWithError', function () {
   it('passes when Error type and message matches', function () {
     jasmine.getEnv().requirePromises();
 
-    var matcher = jasmineUnderTest.asyncMatchers.toBeRejectedWithError(jasmineUnderTest.matchersUtil),
+    var matcher = jasmineUnderTest.asyncMatchers.toBeRejectedWithError(new jasmineUnderTest.MatchersUtil([])),
       actual = Promise.reject(new TypeError('foo'));
 
     return matcher.compare(actual, TypeError, 'foo').then(function (result) {
@@ -30,7 +30,7 @@ describe('#toBeRejectedWithError', function () {
   it('passes when Error matches and is exactly Error', function() {
     jasmine.getEnv().requirePromises();
 
-    var matcher = jasmineUnderTest.asyncMatchers.toBeRejectedWithError(jasmineUnderTest.matchersUtil),
+    var matcher = jasmineUnderTest.asyncMatchers.toBeRejectedWithError(new jasmineUnderTest.MatchersUtil([])),
       actual = Promise.reject(new Error());
 
     return matcher.compare(actual, Error).then(function (result) {
@@ -45,7 +45,7 @@ describe('#toBeRejectedWithError', function () {
   it('passes when Error message matches a string', function () {
     jasmine.getEnv().requirePromises();
 
-    var matcher = jasmineUnderTest.asyncMatchers.toBeRejectedWithError(jasmineUnderTest.matchersUtil),
+    var matcher = jasmineUnderTest.asyncMatchers.toBeRejectedWithError(new jasmineUnderTest.MatchersUtil([])),
       actual = Promise.reject(new Error('foo'));
 
     return matcher.compare(actual, 'foo').then(function (result) {
@@ -59,7 +59,7 @@ describe('#toBeRejectedWithError', function () {
   it('passes when Error message matches a RegExp', function () {
     jasmine.getEnv().requirePromises();
 
-    var matcher = jasmineUnderTest.asyncMatchers.toBeRejectedWithError(jasmineUnderTest.matchersUtil),
+    var matcher = jasmineUnderTest.asyncMatchers.toBeRejectedWithError(new jasmineUnderTest.MatchersUtil([])),
       actual = Promise.reject(new Error('foo'));
 
     return matcher.compare(actual, /foo/).then(function (result) {
@@ -73,7 +73,7 @@ describe('#toBeRejectedWithError', function () {
   it('passes when Error message is empty', function () {
     jasmine.getEnv().requirePromises();
 
-    var matcher = jasmineUnderTest.asyncMatchers.toBeRejectedWithError(jasmineUnderTest.matchersUtil),
+    var matcher = jasmineUnderTest.asyncMatchers.toBeRejectedWithError(new jasmineUnderTest.MatchersUtil([])),
       actual = Promise.reject(new Error());
 
     return matcher.compare(actual, '').then(function (result) {
@@ -87,7 +87,7 @@ describe('#toBeRejectedWithError', function () {
   it('passes when no arguments', function () {
     jasmine.getEnv().requirePromises();
 
-    var matcher = jasmineUnderTest.asyncMatchers.toBeRejectedWithError(jasmineUnderTest.matchersUtil),
+    var matcher = jasmineUnderTest.asyncMatchers.toBeRejectedWithError(new jasmineUnderTest.MatchersUtil([])),
       actual = Promise.reject(new Error());
 
     return matcher.compare(actual, void 0).then(function (result) {
@@ -101,7 +101,7 @@ describe('#toBeRejectedWithError', function () {
   it('fails when resolved', function () {
     jasmine.getEnv().requirePromises();
 
-    var matcher = jasmineUnderTest.asyncMatchers.toBeRejectedWithError(jasmineUnderTest.matchersUtil),
+    var matcher = jasmineUnderTest.asyncMatchers.toBeRejectedWithError(new jasmineUnderTest.MatchersUtil([])),
       actual = Promise.resolve(new Error('foo'));
 
     return matcher.compare(actual, 'foo').then(function (result) {
@@ -115,7 +115,7 @@ describe('#toBeRejectedWithError', function () {
   it('fails when rejected with non Error type', function () {
     jasmine.getEnv().requirePromises();
 
-    var matcher = jasmineUnderTest.asyncMatchers.toBeRejectedWithError(jasmineUnderTest.matchersUtil),
+    var matcher = jasmineUnderTest.asyncMatchers.toBeRejectedWithError(new jasmineUnderTest.MatchersUtil([])),
       actual = Promise.reject('foo');
 
     return matcher.compare(actual, 'foo').then(function (result) {
@@ -129,7 +129,7 @@ describe('#toBeRejectedWithError', function () {
   it('fails when Error type mismatches', function () {
     jasmine.getEnv().requirePromises();
 
-    var matcher = jasmineUnderTest.asyncMatchers.toBeRejectedWithError(jasmineUnderTest.matchersUtil),
+    var matcher = jasmineUnderTest.asyncMatchers.toBeRejectedWithError(new jasmineUnderTest.MatchersUtil([])),
       actual = Promise.reject(new Error('foo'));
 
     return matcher.compare(actual, TypeError, 'foo').then(function (result) {
@@ -143,7 +143,7 @@ describe('#toBeRejectedWithError', function () {
   it('fails when Error message mismatches', function () {
     jasmine.getEnv().requirePromises();
 
-    var matcher = jasmineUnderTest.asyncMatchers.toBeRejectedWithError(jasmineUnderTest.matchersUtil),
+    var matcher = jasmineUnderTest.asyncMatchers.toBeRejectedWithError(new jasmineUnderTest.MatchersUtil([])),
       actual = Promise.reject(new Error('foo'));
 
     return matcher.compare(actual, 'bar').then(function (result) {
@@ -155,7 +155,7 @@ describe('#toBeRejectedWithError', function () {
   });
 
   it('fails if actual is not a promise', function() {
-    var matcher = jasmineUnderTest.asyncMatchers.toBeRejectedWithError(jasmineUnderTest.matchersUtil),
+    var matcher = jasmineUnderTest.asyncMatchers.toBeRejectedWithError(new jasmineUnderTest.MatchersUtil([])),
       actual = 'not a promise';
 
     function f() {

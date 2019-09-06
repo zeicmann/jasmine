@@ -10,7 +10,7 @@ getJasmineRequireObj().toHaveClass = function(j$) {
    * el.className = 'foo bar baz';
    * expect(el).toHaveClass('bar');
    */
-  function toHaveClass(util, customEqualityTesters) {
+  function toHaveClass(util) {
     return {
       compare: function(actual, expected) {
         if (!isElement(actual)) {

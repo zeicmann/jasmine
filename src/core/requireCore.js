@@ -51,7 +51,17 @@ var getJasmineRequireObj = (function(jasmineGlobal) {
     j$.buildExpectationResult = jRequire.buildExpectationResult();
     j$.noopTimer = jRequire.noopTimer();
     j$.JsApiReporter = jRequire.JsApiReporter(j$);
-    j$.matchersUtil = jRequire.matchersUtil(j$);
+
+    j$.MatchersUtil = jRequire.MatchersUtil(j$);
+
+    Object.defineProperty(j$, 'matchersUtil', {
+      get: function() {
+        // TODO: deprecate this?
+        // console.log('jasmine.matchersUtil is deprecated');
+        return j$.getEnv().getMatchersUtil();
+      }
+    });
+
     j$.ObjectContaining = jRequire.ObjectContaining(j$);
     j$.ArrayContaining = jRequire.ArrayContaining(j$);
     j$.ArrayWithExactContents = jRequire.ArrayWithExactContents(j$);

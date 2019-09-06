@@ -16,17 +16,19 @@ describe("toHaveBeenCalledWith", function() {
   });
 
   it("passes through the custom equality testers", function() {
-    var util = {
-          contains: jasmine.createSpy('delegated-contains').and.returnValue(true)
-        },
-        customEqualityTesters = [function() { return true; }],
-        matcher = jasmineUnderTest.matchers.toHaveBeenCalledWith(util, customEqualityTesters),
-        calledSpy = new jasmineUnderTest.Env().createSpy('called-spy');
+    var customEqualityTesters = [
+        jasmine.createSpy('custom equality tester').and.returnValue(true)
+      ],
+      util = new jasmineUnderTest.MatchersUtil(customEqualityTesters),
+      matcher = jasmineUnderTest.matchers.toHaveBeenCalledWith(util),
+      calledSpy = new jasmineUnderTest.Env().createSpy('called-spy'),
+      result;
 
     calledSpy('a', 'b');
-    matcher.compare(calledSpy, 'a', 'b');
+    result = matcher.compare(calledSpy, 'b', 'a');
 
-    expect(util.contains).toHaveBeenCalledWith([['a', 'b']], ['a', 'b'], customEqualityTesters);
+    expect(customEqualityTesters[0]).toHaveBeenCalledWith(['a', 'b'], ['b', 'a']);
+    expect(result.pass).toBe(true);
   });
 
   it("fails when the actual was not called", function() {
@@ -43,7 +45,7 @@ describe("toHaveBeenCalledWith", function() {
   });
 
   it("fails when the actual was called with different parameters", function() {
-    var util = jasmineUnderTest.matchersUtil,
+    var util = new jasmineUnderTest.MatchersUtil([]),
         matcher = jasmineUnderTest.matchers.toHaveBeenCalledWith(util),
         calledSpy = new jasmineUnderTest.Env().createSpy('called spy'),
         result;

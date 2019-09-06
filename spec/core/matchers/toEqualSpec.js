@@ -1,8 +1,8 @@
-describe("toEqual", function() {
-  "use strict";
+describe('toEqual', function() {
+  'use strict';
 
   function compareEquals(actual, expected) {
-    var util = jasmineUnderTest.matchersUtil,
+    var util = new jasmineUnderTest.MatchersUtil([]),
       matcher = jasmineUnderTest.matchers.toEqual(util);
 
     var result = matcher.compare(actual, expected);
@@ -10,38 +10,34 @@ describe("toEqual", function() {
     return result;
   }
 
-  it("delegates to equals function", function() {
+  it('delegates to equals function', function() {
     var util = {
         equals: jasmine.createSpy('delegated-equals').and.returnValue(true),
         buildFailureMessage: function() {
-          return 'does not matter'
+          return 'does not matter';
         },
-        DiffBuilder: jasmineUnderTest.matchersUtil.DiffBuilder
+        DiffBuilder: new jasmineUnderTest.MatchersUtil([]).DiffBuilder
       },
       matcher = jasmineUnderTest.matchers.toEqual(util),
       result;
 
     result = matcher.compare(1, 1);
 
-    expect(util.equals).toHaveBeenCalledWith(1, 1, [], jasmine.anything());
+    expect(util.equals).toHaveBeenCalledWith(1, 1, null, jasmine.anything());
     expect(result.pass).toBe(true);
   });
 
-  it("delegates custom equality testers, if present", function() {
-    var util = {
-        equals: jasmine.createSpy('delegated-equals').and.returnValue(true),
-        buildFailureMessage: function() {
-          return 'does not matter'
-        },
-        DiffBuilder: jasmineUnderTest.matchersUtil.DiffBuilder
-      },
-      customEqualityTesters = ['a', 'b'],
-      matcher = jasmineUnderTest.matchers.toEqual(util, customEqualityTesters),
+  it('delegates custom equality testers, if present', function() {
+    var customEqualityTesters = [
+        jasmine.createSpy('custom equality tester').and.returnValue(true)
+      ],
+      util = new jasmineUnderTest.MatchersUtil(customEqualityTesters),
+      matcher = jasmineUnderTest.matchers.toEqual(util),
       result;
 
-    result = matcher.compare(1, 1);
+    result = matcher.compare(1, 2);
 
-    expect(util.equals).toHaveBeenCalledWith(1, 1, ['a', 'b'], jasmine.anything());
+    expect(customEqualityTesters[0]).toHaveBeenCalledWith(1, 2);
     expect(result.pass).toBe(true);
   });
 

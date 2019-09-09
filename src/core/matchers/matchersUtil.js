@@ -65,14 +65,9 @@ getJasmineRequireObj().MatchersUtil = function(j$) {
       return obj && j$.isA_('Function', obj.asymmetricMatch);
     }
 
+    // TODO: just use injectedCustomTesters once our callers no longer take
+    // custom testers.
     function asymmetricMatch(a, b, customTesters, diffBuilder) {
-      // TODO: What to do about diffBuilder?
-      if (customTesters) {
-        console.log('Passing custom equality testers to MatchersUtil#asymmetricMatch is deprecated');
-      }
-
-      customTesters = injectedCustomTesters || customTesters;
-
       var asymmetricA = isAsymmetric(a),
         asymmetricB = isAsymmetric(b),
         result;

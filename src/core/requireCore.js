@@ -62,6 +62,10 @@ var getJasmineRequireObj = (function(jasmineGlobal) {
       }
     });
 
+    j$.AsymmetricEqualityTesterArgCompatShim = jRequire.AsymmetricEqualityTesterArgCompatShim(
+      j$
+    );
+
     j$.ObjectContaining = jRequire.ObjectContaining(j$);
     j$.ArrayContaining = jRequire.ArrayContaining(j$);
     j$.ArrayWithExactContents = jRequire.ArrayWithExactContents(j$);

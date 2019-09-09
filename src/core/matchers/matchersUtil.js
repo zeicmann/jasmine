@@ -14,7 +14,7 @@ getJasmineRequireObj().MatchersUtil = function(j$) {
           console.log('Passing custom equality testers to MatchersUtil#contains is deprecated');
         }
 
-        customTesters = injectedCustomTesters || customTesters;
+        customTesters = customTesters || injectedCustomTesters;
 
         if (j$.isSet(haystack)) {
           return haystack.has(needle);
@@ -99,7 +99,7 @@ getJasmineRequireObj().MatchersUtil = function(j$) {
         console.log('Passing custom equality testers to MatchersUtil#equals is deprecated');
       }
 
-      customTesters = injectedCustomTesters || customTesters;
+      customTesters = customTesters || injectedCustomTesters;
       diffBuilder = diffBuilder || j$.NullDiffBuilder();
 
       return eq(a, b, [], [], customTesters, diffBuilder);

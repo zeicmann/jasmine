@@ -178,11 +178,13 @@ describe("Custom Matchers (Integration)", function() {
   it("passes the jasmine utility and current equality matchers to the expectation factory", function(done) {
     var matcherFactory = function() { return { compare: function() { return {pass: true}; }}; },
         argumentSpy = jasmine.createSpy("argument spy").and.returnValue(matcherFactory),
-        customEqualityFn = function() { return true; };
+        customEqualityFn = function() { return true; },
+        matchersUtil;
 
 
     env.it("spec with expectation", function() {
       env.addCustomEqualityTester(customEqualityFn);
+      matchersUtil = env.getMatchersUtil();
       env.addMatchers({
         toBeReal: argumentSpy
       });
@@ -191,7 +193,7 @@ describe("Custom Matchers (Integration)", function() {
     });
 
     var specExpectations = function() {
-      expect(argumentSpy).toHaveBeenCalledWith(jasmineUnderTest.matchersUtil, [customEqualityFn]);
+      expect(argumentSpy).toHaveBeenCalledWith(matchersUtil, [customEqualityFn]);
     };
 
     env.addReporter({ specDone: specExpectations, jasmineDone: done });

@@ -1,4 +1,4 @@
-xdescribe("ArrayWithExactContents", function() {
+describe("ArrayWithExactContents", function() {
   it("matches an array with the same items in a different order", function() {
     var matcher = new jasmineUnderTest.ArrayWithExactContents(['a', 2, /a/]);
 

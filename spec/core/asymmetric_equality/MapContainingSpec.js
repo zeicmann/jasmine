@@ -1,4 +1,4 @@
-xdescribe('MapContaining', function() {
+describe('MapContaining', function() {
   function MapI(iterable) {    // for IE11
     var map = new Map();
     iterable.forEach(function(kv) {

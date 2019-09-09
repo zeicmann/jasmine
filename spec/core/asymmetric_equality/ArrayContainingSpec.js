@@ -1,4 +1,4 @@
-xdescribe("ArrayContaining", function() {
+describe("ArrayContaining", function() {
   it("matches any actual to an empty array", function() {
     var containing = new jasmineUnderTest.ArrayContaining([]);
 

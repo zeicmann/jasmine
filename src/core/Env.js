@@ -297,14 +297,19 @@ getJasmineRequireObj().Env = function(j$) {
     // TODO: Probably need to document this. Tough to make asymmetric equality testers work right without it.
     this.getMatchersUtil = function() {
       if (!currentRunnable()) {
-        throw new Error(
-          'getMatchersUtil() must be called in a before function or a spec'
+        self.deprecated('References to jasmine.matchersUtil or calls to ' +
+          'Env.matchersUtil outside a before function or a spec are ' +
+          'deprecated and will stop working in a future release.');
+        return new j$.MatchersUtil([]);
+      }
+
+      if (!runnableResources[currentRunnable().id].matchersUtil) {
+        runnableResources[currentRunnable().id].matchersUtil = j$.MatchersUtil(
+          runnableResources[currentRunnable().id].customEqualityTesters
         );
       }
 
-      return new j$.MatchersUtil(
-        runnableResources[currentRunnable().id].customEqualityTesters
-      );
+      return runnableResources[currentRunnable().id].matchersUtil;
     };
 
     j$.Expectation.addCoreMatchers(j$.matchers);

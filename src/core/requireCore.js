@@ -54,10 +54,9 @@ var getJasmineRequireObj = (function(jasmineGlobal) {
 
     j$.MatchersUtil = jRequire.MatchersUtil(j$);
 
+    // TODO: Probably need to document this. Tough to make asymmetric equality testers work right without it.
     Object.defineProperty(j$, 'matchersUtil', {
       get: function() {
-        // TODO: deprecate this?
-        // console.log('jasmine.matchersUtil is deprecated');
         return j$.getEnv().getMatchersUtil();
       }
     });

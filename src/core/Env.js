@@ -296,9 +296,6 @@ getJasmineRequireObj().Env = function(j$) {
 
     this.getMatchersUtil = function() {
       if (!currentRunnable()) {
-        self.deprecated('References to jasmine.matchersUtil outside a before ' +
-          'function or a spec are deprecated and will stop working in a ' +
-          'future release.');
         return new j$.MatchersUtil([]);
       }
 

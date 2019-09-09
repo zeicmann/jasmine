@@ -96,7 +96,7 @@ getJasmineRequireObj().MatchersUtil = function(j$) {
 
     function equals(a, b, customTesters, diffBuilder) {
       if (customTesters) {
-        console.log('Passing custom equality testers to MatchersUtil#equals is deprecated');
+        jasmine.getEnv().deprecated('Passing custom equality testers to MatchersUtil#equals is deprecated');
       }
 
       customTesters = customTesters || injectedCustomTesters;

@@ -1,4 +1,4 @@
-xdescribe('Spies', function() {
+describe('Spies', function() {
   var env;
 
   beforeEach(function() {

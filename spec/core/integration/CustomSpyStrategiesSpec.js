@@ -1,4 +1,4 @@
-xdescribe('Custom Spy Strategies (Integration)', function() {
+describe('Custom Spy Strategies (Integration)', function() {
   var env;
 
   beforeEach(function() {

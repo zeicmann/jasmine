@@ -11,7 +11,7 @@ getJasmineRequireObj().MatchersUtil = function(j$) {
 
       contains: function(haystack, needle, customTesters) {
         if (customTesters) {
-          console.log('Passing custom equality testers to MatchersUtil#contains is deprecated');
+          jasmine.getEnv().deprecated('Passing custom equality testers to MatchersUtil#contains is deprecated');
           return new j$.MatchersUtil(customTesters).contains(haystack, needle)
         }
 

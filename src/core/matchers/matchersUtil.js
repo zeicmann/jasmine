@@ -6,7 +6,7 @@ getJasmineRequireObj().MatchersUtil = function(j$) {
       throw new Error('MatchersUtil requires custom equality testers');
     }
 
-    return {
+    var self = {
       equals: equals,
 
       contains: function(haystack, needle, customTesters) {
@@ -61,6 +61,8 @@ getJasmineRequireObj().MatchersUtil = function(j$) {
       }
     };
 
+    return self;
+
     function isAsymmetric(obj) {
       return obj && j$.isA_('Function', obj.asymmetricMatch);
     }
@@ -70,15 +72,15 @@ getJasmineRequireObj().MatchersUtil = function(j$) {
     function asymmetricMatch(a, b, customTesters, diffBuilder) {
       var asymmetricA = isAsymmetric(a),
         asymmetricB = isAsymmetric(b),
+        shim = new j$.AsymmetricEqualityTesterArgCompatShim(self, customTesters),
         result;
 
       if (asymmetricA && asymmetricB) {
         return undefined;
       }
 
-      // TODO: How do we want to provide custom equality testers to asymmetric matchers?
       if (asymmetricA) {
-        result = a.asymmetricMatch(b, customTesters);
+        result = a.asymmetricMatch(b, shim);
         if (!result) {
           diffBuilder.record(a, b);
         }
@@ -86,7 +88,7 @@ getJasmineRequireObj().MatchersUtil = function(j$) {
       }
 
       if (asymmetricB) {
-        result = b.asymmetricMatch(a, customTesters);
+        result = b.asymmetricMatch(a, shim);
         if (!result) {
           diffBuilder.record(a, b);
         }

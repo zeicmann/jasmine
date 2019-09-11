@@ -386,7 +386,7 @@ describe("matchersUtil", function() {
       var matchersUtil = new jasmineUnderTest.MatchersUtil([]);
       var tester = function(a, b) { return true; };
 
-      spyOn(jasmine.getEnv(), 'deprecated'); // silence the warning
+      spyOn(jasmineUnderTest.getEnv(), 'deprecated'); // silence the warning
       expect(matchersUtil.equals(1, 2, [tester])).toBe(true);
     });
 
@@ -408,7 +408,7 @@ describe("matchersUtil", function() {
       it("passes for two empty Objects", function () {
         // Deprecated. Remove in 4.0.
         var matchersUtil = new jasmineUnderTest.MatchersUtil([]);
-        spyOn(jasmine.getEnv(), 'deprecated'); // silence the warning
+        spyOn(jasmineUnderTest.getEnv(), 'deprecated'); // silence the warning
         expect(matchersUtil.equals({}, {}, [tester])).toBe(true);
       });
     });
@@ -433,18 +433,29 @@ describe("matchersUtil", function() {
       // Deprecated. Remove in 4.0.
       var matchersUtil = new jasmineUnderTest.MatchersUtil([]);
       var tester = function(a, b) { return false; };
-      spyOn(jasmine.getEnv(), 'deprecated'); // silence the warning
+      spyOn(jasmineUnderTest.getEnv(), 'deprecated'); // silence the warning
 
       expect(matchersUtil.equals(1, 1, [tester])).toBe(false);
     });
 
-    it("passes for an asymmetric equality tester that returns true when a custom equality tester return false", function() {
+    it("passes for an asymmetric equality tester that returns true when a custom equality tester passed to equals return false", function() {
+      // Deprecated. Remove in 4.0.
       var matchersUtil = new jasmineUnderTest.MatchersUtil([]),
         asymmetricTester = { asymmetricMatch: function(other) { return true; } },
         symmetricTester = function(a, b) { return false; };
+      spyOn(jasmineUnderTest.getEnv(), 'deprecated'); // silence the warnings
 
       expect(matchersUtil.equals(asymmetricTester, true, [symmetricTester])).toBe(true);
       expect(matchersUtil.equals(true, asymmetricTester, [symmetricTester])).toBe(true);
+    });
+
+    it("passes for an asymmetric equality tester that returns true when a custom equality tester passed to the ctor return false", function() {
+      var asymmetricTester = { asymmetricMatch: function(other) { return true; } },
+        symmetricTester = function(a, b) { return false; },
+        matchersUtil = new jasmineUnderTest.MatchersUtil([symmetricTester]);
+
+      expect(matchersUtil.equals(asymmetricTester, true)).toBe(true);
+      expect(matchersUtil.equals(true, asymmetricTester)).toBe(true);
     });
 
     it("passes a shim containing both matchersUtil and custom equality matchers to asymmetric equality testers", function() {
@@ -454,7 +465,7 @@ describe("matchersUtil", function() {
       var matchersUtil = new jasmineUnderTest.MatchersUtil([]);
       var other = {};
 
-      spyOn(jasmine.getEnv(), 'deprecated'); // silence the warnings
+      spyOn(jasmineUnderTest.getEnv(), 'deprecated'); // silence the warnings
       expect(matchersUtil.equals(asymmetricTester, other, [tester])).toBe(true);
 
       expect(asymmetricTester.asymmetricMatch).toHaveBeenCalledWith(other, jasmine.objectContaining({
@@ -726,11 +737,20 @@ describe("matchersUtil", function() {
       expect(matchersUtil.contains(["foo", {some: "bar"}], {some: "bar"})).toBe(true);
     });
 
-    it("uses custom equality testers if passed in and actual is an Array", function() {
+    it("uses custom equality testers if passed to contains and actual is an Array", function() {
+      // Deprecated. Remove in 4.0.
+      spyOn(jasmineUnderTest.getEnv(), 'deprecated'); // silence warnings
       var matchersUtil = new jasmineUnderTest.MatchersUtil([]);
       var customTester = function(a, b) {return true;};
 
       expect(matchersUtil.contains([1, 2], 2, [customTester])).toBe(true);
+    });
+
+    it("uses custom equality testers if passed to constructor and actual is an Array", function() {
+      var customTester = function(a, b) {return true;};
+      var matchersUtil = new jasmineUnderTest.MatchersUtil([customTester]);
+
+      expect(matchersUtil.contains([1, 2], 2)).toBe(true);
     });
 
     it("fails when actual is undefined", function() {

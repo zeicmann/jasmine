@@ -7,7 +7,7 @@ getJasmineRequireObj().SetContaining = function(j$) {
     this.sample = sample;
   }
 
-  SetContaining.prototype.asymmetricMatch = function(other, customTesters) {
+  SetContaining.prototype.asymmetricMatch = function(other, matchersUtil) {
     if (!j$.isSet(other)) return false;
 
     var hasAllMatches = true;
@@ -17,7 +17,7 @@ getJasmineRequireObj().SetContaining = function(j$) {
       // not by deep value equality)
       var hasMatch = false;
       j$.util.forEachBreakable(other, function(oBreakLoop, oItem) {
-        if (j$.matchersUtil.equals(oItem, item, customTesters)) {
+        if (matchersUtil.equals(oItem, item)) {
           hasMatch = true;
           oBreakLoop();
         }

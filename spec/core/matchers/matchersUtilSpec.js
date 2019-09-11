@@ -454,15 +454,15 @@ describe("matchersUtil", function() {
       var matchersUtil = new jasmineUnderTest.MatchersUtil([]);
       var other = {};
 
-      spyOn(jasmine.getEnv(), 'deprecated'); // silence the warning
+      spyOn(jasmine.getEnv(), 'deprecated'); // silence the warnings
       expect(matchersUtil.equals(asymmetricTester, other, [tester])).toBe(true);
 
       expect(asymmetricTester.asymmetricMatch).toHaveBeenCalledWith(other, jasmine.objectContaining({
         length: 1,
         0: tester,
-        equals: matchersUtil.equals,
-        contains: matchersUtil.contains,
-        buildFailureMessage: matchersUtil.buildFailureMessage
+        equals: jasmine.any(Function),
+        contains: jasmine.any(Function),
+        buildFailureMessage: jasmine.any(Function)
       }));
     });
 

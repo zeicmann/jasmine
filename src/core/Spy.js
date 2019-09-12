@@ -199,10 +199,12 @@ getJasmineRequireObj().Spy = function(j$) {
   };
 
   StrategyDict.prototype.get = function(args) {
-    var i;
+    // TODO: Should this use custom equality testers? It didn't previously.
+    var i,
+      matchersUtil = new j$.MatchersUtil([]);
 
     for (i = 0; i < this.strategies.length; i++) {
-      if (j$.matchersUtil.equals(args, this.strategies[i].args)) {
+      if (matchersUtil.equals(args, this.strategies[i].args)) {
         return this.strategies[i].strategy;
       }
     }

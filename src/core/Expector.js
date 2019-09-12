@@ -13,8 +13,8 @@ getJasmineRequireObj().Expector = function(j$) {
     args
   ) {
     if (matcherFactory.length >= 2) {
-      console.log(
-        'Deprecation warning: customEqualityTesters will no longer be passed to matchers'
+      j$.getEnv().deprecated(
+        'customEqualityTesters will no longer be passed to matchers'
       );
     }
 

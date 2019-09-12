@@ -56,7 +56,9 @@ var getJasmineRequireObj = (function(jasmineGlobal) {
 
     Object.defineProperty(j$, 'matchersUtil', {
       get: function() {
-        j$.getEnv().deprecated('jasmine.matchersUtil is deprecated. TODO explain how to get one passed to you instead.');
+        j$.getEnv().deprecated(
+          'jasmine.matchersUtil is deprecated. TODO explain how to get one passed to you instead.'
+        );
         return j$.getEnv().getMatchersUtil();
       }
     });

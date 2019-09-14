@@ -21,7 +21,7 @@ getJasmineRequireObj().toBeRejectedWith = function(j$) {
         function prefix(passed) {
           return 'Expected a promise ' +
             (passed ? 'not ' : '') +
-            'to be rejected with ' + j$.pp(expectedValue);
+            'to be rejected with ' + util.pp(expectedValue);
         }
 
         return actualPromise.then(
@@ -40,7 +40,7 @@ getJasmineRequireObj().toBeRejectedWith = function(j$) {
           } else {
             return {
               pass: false,
-              message: prefix(false) + ' but it was rejected with ' + j$.pp(actualValue) + '.'
+              message: prefix(false) + ' but it was rejected with ' + util.pp(actualValue) + '.'
             };
           }
         }

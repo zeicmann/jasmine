@@ -20,13 +20,13 @@ getJasmineRequireObj().toHaveBeenCalledWith = function(j$) {
           result = { pass: false };
 
         if (!j$.isSpy(actual)) {
-          throw new Error(getErrorMsg('Expected a spy, but got ' + j$.pp(actual) + '.'));
+          throw new Error(getErrorMsg('Expected a spy, but got ' + util.pp(actual) + '.'));
         }
 
         if (!actual.calls.any()) {
           result.message = function() {
             return 'Expected spy ' + actual.and.identity + ' to have been called with:\n' +
-              '  ' + j$.pp(expectedArgs) +
+              '  ' + util.pp(expectedArgs) +
               '\nbut it was never called.';
           };
           return result;
@@ -36,13 +36,13 @@ getJasmineRequireObj().toHaveBeenCalledWith = function(j$) {
           result.pass = true;
           result.message = function() {
             return 'Expected spy ' + actual.and.identity + ' not to have been called with:\n' +
-              '  ' + j$.pp(expectedArgs) +
+              '  ' + util.pp(expectedArgs) +
               '\nbut it was.';
           };
         } else {
           result.message = function() {
             var prettyPrintedCalls = actual.calls.allArgs().map(function(argsForCall) {
-              return '  ' + j$.pp(argsForCall);
+              return '  ' + util.pp(argsForCall);
             });
 
             var diffs = actual.calls.allArgs().map(function(argsForCall, callIx) {
@@ -53,7 +53,7 @@ getJasmineRequireObj().toHaveBeenCalledWith = function(j$) {
             });
 
             return 'Expected spy ' + actual.and.identity + ' to have been called with:\n' +
-              '  ' + j$.pp(expectedArgs) + '\n' + '' +
+              '  ' + util.pp(expectedArgs) + '\n' + '' +
               'but actual calls were:\n' +
               prettyPrintedCalls.join(',\n') + '.\n\n' +
               diffs.join('\n');

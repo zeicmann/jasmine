@@ -10,7 +10,7 @@ getJasmineRequireObj().MatchersUtil = function(j$) {
     }
 
     var self = {
-      prettyPrint: prettyPrint,
+      pp: prettyPrint,
 
       equals: equals,
 

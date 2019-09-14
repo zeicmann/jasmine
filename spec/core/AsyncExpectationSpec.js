@@ -92,6 +92,7 @@ describe('AsyncExpectation', function() {
       jasmine.getEnv().requirePromises();
 
       var util = {
+          pp: jasmineUnderTest.pp,
           buildFailureMessage: function() {
             return 'failure message';
           }
@@ -120,6 +121,7 @@ describe('AsyncExpectation', function() {
       jasmine.getEnv().requirePromises();
 
       var util = {
+          pp: jasmineUnderTest.pp,
           buildFailureMessage: function() {
             return 'failure message';
           }
@@ -150,6 +152,7 @@ describe('AsyncExpectation', function() {
       jasmine.getEnv().requirePromises();
 
       var util = {
+          pp: jasmineUnderTest.pp,
           buildFailureMessage: function() {
             return 'failure message';
           }

@@ -37,16 +37,16 @@ getJasmineRequireObj().toThrow = function(j$) {
 
         if (arguments.length == 1) {
           result.pass = true;
-          result.message = function() { return 'Expected function not to throw, but it threw ' + j$.pp(thrown) + '.'; };
+          result.message = function() { return 'Expected function not to throw, but it threw ' + util.pp(thrown) + '.'; };
 
           return result;
         }
 
         if (util.equals(thrown, expected)) {
           result.pass = true;
-          result.message = function() { return 'Expected function not to throw ' + j$.pp(expected) + '.'; };
+          result.message = function() { return 'Expected function not to throw ' + util.pp(expected) + '.'; };
         } else {
-          result.message = function() { return 'Expected function to throw ' + j$.pp(expected) + ', but it threw ' +  j$.pp(thrown) + '.'; };
+          result.message = function() { return 'Expected function to throw ' + util.pp(expected) + ', but it threw ' +  util.pp(thrown) + '.'; };
         }
 
         return result;

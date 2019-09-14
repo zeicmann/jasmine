@@ -1,6 +1,6 @@
 describe("toThrowMatching", function() {
   it("throws an error when the actual is not a function", function() {
-    var matcher = jasmineUnderTest.matchers.toThrowMatching();
+    var matcher = jasmineUnderTest.matchers.toThrowMatching({pp: jasmineUnderTest.pp});
 
     expect(function() {
       matcher.compare({}, function() { return true; });
@@ -8,7 +8,7 @@ describe("toThrowMatching", function() {
   });
 
   it("throws an error when the expected is not a function", function() {
-    var matcher = jasmineUnderTest.matchers.toThrowMatching(),
+    var matcher = jasmineUnderTest.matchers.toThrowMatching({pp: jasmineUnderTest.pp}),
       fn = function() {
         throw new Error("foo");
       };
@@ -19,7 +19,7 @@ describe("toThrowMatching", function() {
   });
 
   it("fails if actual does not throw at all", function() {
-    var matcher = jasmineUnderTest.matchers.toThrowMatching(),
+    var matcher = jasmineUnderTest.matchers.toThrowMatching({pp: jasmineUnderTest.pp}),
       fn = function() {
         return true;
       },
@@ -32,7 +32,7 @@ describe("toThrowMatching", function() {
   });
 
   it("fails with the correct message if thrown is a falsy value", function() {
-    var matcher = jasmineUnderTest.matchers.toThrowMatching(),
+    var matcher = jasmineUnderTest.matchers.toThrowMatching({pp: jasmineUnderTest.pp}),
       fn = function() {
         throw undefined;
       },
@@ -44,7 +44,7 @@ describe("toThrowMatching", function() {
   });
 
   it("passes if the argument is a function that returns true when called with the error", function() {
-    var matcher = jasmineUnderTest.matchers.toThrowMatching(),
+    var matcher = jasmineUnderTest.matchers.toThrowMatching({pp: jasmineUnderTest.pp}),
     predicate = function(e) { return e.message === "nope" },
       fn = function() {
         throw new TypeError("nope");
@@ -58,7 +58,7 @@ describe("toThrowMatching", function() {
   });
 
   it("fails if the argument is a function that returns false when called with the error", function() {
-    var matcher = jasmineUnderTest.matchers.toThrowMatching(),
+    var matcher = jasmineUnderTest.matchers.toThrowMatching({pp: jasmineUnderTest.pp}),
     predicate = function(e) { return e.message === "oh no" },
       fn = function() {
         throw new TypeError("nope");

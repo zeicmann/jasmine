@@ -1,6 +1,6 @@
 describe("toHaveBeenCalledBefore", function() {
   it("throws an exception when the actual is not a spy", function() {
-    var matcher = jasmineUnderTest.matchers.toHaveBeenCalledBefore(),
+    var matcher = jasmineUnderTest.matchers.toHaveBeenCalledBefore({pp: jasmineUnderTest.pp}),
         fn = function() {},
         secondSpy = new jasmineUnderTest.Env().createSpy('second spy');
 
@@ -8,7 +8,7 @@ describe("toHaveBeenCalledBefore", function() {
   });
 
   it("throws an exception when the expected is not a spy", function() {
-    var matcher = jasmineUnderTest.matchers.toHaveBeenCalledBefore(),
+    var matcher = jasmineUnderTest.matchers.toHaveBeenCalledBefore({pp: jasmineUnderTest.pp}),
         firstSpy = new jasmineUnderTest.Env().createSpy('first spy'),
         fn = function() {};
 
@@ -16,7 +16,7 @@ describe("toHaveBeenCalledBefore", function() {
   });
 
   it("fails when the actual was not called", function() {
-    var matcher = jasmineUnderTest.matchers.toHaveBeenCalledBefore(),
+    var matcher = jasmineUnderTest.matchers.toHaveBeenCalledBefore({pp: jasmineUnderTest.pp}),
         firstSpy = new jasmineUnderTest.Env().createSpy('first spy'),
         secondSpy = new jasmineUnderTest.Env().createSpy('second spy');
 
@@ -28,7 +28,7 @@ describe("toHaveBeenCalledBefore", function() {
   });
 
   it("fails when the expected was not called", function() {
-    var matcher = jasmineUnderTest.matchers.toHaveBeenCalledBefore(),
+    var matcher = jasmineUnderTest.matchers.toHaveBeenCalledBefore({pp: jasmineUnderTest.pp}),
         firstSpy = new jasmineUnderTest.Env().createSpy('first spy'),
         secondSpy = new jasmineUnderTest.Env().createSpy('second spy');
 
@@ -40,7 +40,7 @@ describe("toHaveBeenCalledBefore", function() {
   });
 
   it("fails when the actual is called after the expected", function() {
-    var matcher = jasmineUnderTest.matchers.toHaveBeenCalledBefore(),
+    var matcher = jasmineUnderTest.matchers.toHaveBeenCalledBefore({pp: jasmineUnderTest.pp}),
         firstSpy = new jasmineUnderTest.Env().createSpy('first spy'),
         secondSpy = new jasmineUnderTest.Env().createSpy('second spy'),
         result;
@@ -54,7 +54,7 @@ describe("toHaveBeenCalledBefore", function() {
   });
 
 	it("fails when the actual is called before and after the expected", function() {
-    var matcher = jasmineUnderTest.matchers.toHaveBeenCalledBefore(),
+    var matcher = jasmineUnderTest.matchers.toHaveBeenCalledBefore({pp: jasmineUnderTest.pp}),
         firstSpy = new jasmineUnderTest.Env().createSpy('first spy'),
         secondSpy = new jasmineUnderTest.Env().createSpy('second spy'),
         result;
@@ -69,7 +69,7 @@ describe("toHaveBeenCalledBefore", function() {
   });
 
 	it("fails when the expected is called before and after the actual", function() {
-    var matcher = jasmineUnderTest.matchers.toHaveBeenCalledBefore(),
+    var matcher = jasmineUnderTest.matchers.toHaveBeenCalledBefore({pp: jasmineUnderTest.pp}),
         firstSpy = new jasmineUnderTest.Env().createSpy('first spy'),
         secondSpy = new jasmineUnderTest.Env().createSpy('second spy'),
         result;
@@ -84,7 +84,7 @@ describe("toHaveBeenCalledBefore", function() {
   });
 
   it("passes when the actual is called before the expected", function() {
-    var matcher = jasmineUnderTest.matchers.toHaveBeenCalledBefore(),
+    var matcher = jasmineUnderTest.matchers.toHaveBeenCalledBefore({pp: jasmineUnderTest.pp}),
         firstSpy = new jasmineUnderTest.Env().createSpy('first spy'),
         secondSpy = new jasmineUnderTest.Env().createSpy('second spy'),
         result;

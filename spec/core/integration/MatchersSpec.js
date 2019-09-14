@@ -41,6 +41,10 @@ describe('Matchers (Integration)', function() {
           .not.toMatch(/^Error: /);
         expect(result.failedExpectations[0].matcherName).withContext('Matcher name')
           .not.toEqual('');
+
+        if (result.failedExpectations[0].matcherName === '') {
+          console.error(result.failedExpectations[0]);
+        }
       };
 
       env.addReporter({ specDone: specExpectations, jasmineDone: done });

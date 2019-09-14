@@ -10,7 +10,7 @@ getJasmineRequireObj().toThrowMatching = function(j$) {
    * @example
    * expect(function() { throw new Error('nope'); }).toThrowMatching(function(thrown) { return thrown.message === 'nope'; });
    */
-  function toThrowMatching() {
+  function toThrowMatching(matchersUtil) {
     return {
       compare: function(actual, predicate) {
         var thrown;
@@ -35,19 +35,19 @@ getJasmineRequireObj().toThrowMatching = function(j$) {
         } else {
             return fail(function() {
               return 'Expected function to throw an exception matching a predicate, ' +
-                'but it threw ' + thrownDescription(thrown) + '.';
+                'but it threw ' + thrownDescription(thrown, matchersUtil) + '.';
             });
         }
       }
     };
   }
 
-  function thrownDescription(thrown) {
+  function thrownDescription(thrown, matchersUtil) {
     if (thrown && thrown.constructor) {
       return j$.fnNameFor(thrown.constructor) + ' with message ' +
-        j$.pp(thrown.message);
+        matchersUtil.pp(thrown.message);
     } else {
-      return j$.pp(thrown);
+      return matchersUtil.pp(thrown);
     }
   }
 

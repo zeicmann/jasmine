@@ -14,7 +14,7 @@ getJasmineRequireObj().toHaveClass = function(j$) {
     return {
       compare: function(actual, expected) {
         if (!isElement(actual)) {
-          throw new Error(j$.pp(actual) + ' is not a DOM element');
+          throw new Error(util.pp(actual) + ' is not a DOM element');
         }
 
         return {

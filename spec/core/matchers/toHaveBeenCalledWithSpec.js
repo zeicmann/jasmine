@@ -2,6 +2,7 @@ describe("toHaveBeenCalledWith", function() {
 
   it("passes when the actual was called with matching parameters", function() {
     var util = {
+          pp: jasmineUnderTest.pp,
           contains: jasmine.createSpy('delegated-contains').and.returnValue(true)
         },
         matcher = jasmineUnderTest.matchers.toHaveBeenCalledWith(util),
@@ -33,6 +34,7 @@ describe("toHaveBeenCalledWith", function() {
 
   it("fails when the actual was not called", function() {
     var util = {
+          pp: jasmineUnderTest.pp,
           contains: jasmine.createSpy('delegated-contains').and.returnValue(false)
         },
         matcher = jasmineUnderTest.matchers.toHaveBeenCalledWith(util),
@@ -75,7 +77,7 @@ describe("toHaveBeenCalledWith", function() {
   });
 
   it("throws an exception when the actual is not a spy", function() {
-    var matcher = jasmineUnderTest.matchers.toHaveBeenCalledWith(),
+    var matcher = jasmineUnderTest.matchers.toHaveBeenCalledWith({pp: jasmineUnderTest.pp}),
         fn = function() {};
 
     expect(function() { matcher.compare(fn) }).toThrowError(/Expected a spy, but got Function./);

@@ -1,7 +1,7 @@
 describe("toThrow", function() {
 
   it("throws an error when the actual is not a function", function() {
-    var matcher = jasmineUnderTest.matchers.toThrow();
+    var matcher = jasmineUnderTest.matchers.toThrow({pp: jasmineUnderTest.pp});
 
     expect(function() {
       matcher.compare({});
@@ -10,7 +10,7 @@ describe("toThrow", function() {
   });
 
   it("fails if actual does not throw", function() {
-    var matcher = jasmineUnderTest.matchers.toThrow(),
+    var matcher = jasmineUnderTest.matchers.toThrow({pp: jasmineUnderTest.pp}),
       fn = function() {
         return true;
       },
@@ -24,6 +24,7 @@ describe("toThrow", function() {
 
   it("passes if it throws but there is no expected", function() {
     var util = {
+        pp: jasmineUnderTest.pp,
         equals: jasmine.createSpy('delegated-equal').and.returnValue(true)
       },
       matcher = jasmineUnderTest.matchers.toThrow(util),
@@ -39,7 +40,7 @@ describe("toThrow", function() {
   });
 
   it("passes even if what is thrown is falsy", function() {
-    var matcher = jasmineUnderTest.matchers.toThrow(),
+    var matcher = jasmineUnderTest.matchers.toThrow({pp: jasmineUnderTest.pp}),
       fn = function() {
         throw undefined;
       },
@@ -52,6 +53,7 @@ describe("toThrow", function() {
 
   it("passes if what is thrown is equivalent to what is expected", function() {
     var util = {
+        pp: jasmineUnderTest.pp,
         equals: jasmine.createSpy('delegated-equal').and.returnValue(true)
       },
       matcher = jasmineUnderTest.matchers.toThrow(util),
@@ -68,6 +70,7 @@ describe("toThrow", function() {
 
   it("fails if what is thrown is not equivalent to what is expected", function() {
     var util = {
+        pp: jasmineUnderTest.pp,
         equals: jasmine.createSpy('delegated-equal').and.returnValue(false)
       },
       matcher = jasmineUnderTest.matchers.toThrow(util),
@@ -84,6 +87,7 @@ describe("toThrow", function() {
 
   it("fails if what is thrown is not equivalent to undefined", function() {
     var util = {
+        pp: jasmineUnderTest.pp,
         equals: jasmine.createSpy('delegated-equal').and.returnValue(false)
       },
       matcher = jasmineUnderTest.matchers.toThrow(util),

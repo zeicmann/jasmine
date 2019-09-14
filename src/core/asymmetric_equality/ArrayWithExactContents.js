@@ -6,7 +6,7 @@ getJasmineRequireObj().ArrayWithExactContents = function(j$) {
 
   ArrayWithExactContents.prototype.asymmetricMatch = function(other, matchersUtil) {
     if (!j$.isArray_(this.sample)) {
-      throw new Error('You must provide an array to arrayWithExactContents, not ' + j$.pp(this.sample) + '.');
+      throw new Error('You must provide an array to arrayWithExactContents, not ' + matchersUtil.pp(this.sample) + '.');
     }
 
     if (this.sample.length !== other.length) {

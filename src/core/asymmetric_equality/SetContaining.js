@@ -1,13 +1,13 @@
 getJasmineRequireObj().SetContaining = function(j$) {
   function SetContaining(sample) {
-    if (!j$.isSet(sample)) {
-      throw new Error('You must provide a set to `setContaining`, not ' + j$.pp(sample));
-    }
-
     this.sample = sample;
   }
 
   SetContaining.prototype.asymmetricMatch = function(other, matchersUtil) {
+    if (!j$.isSet(this.sample)) {
+      throw new Error('You must provide a set to `setContaining`, not ' + matchersUtil.pp(this.sample));
+    }
+
     if (!j$.isSet(other)) return false;
 
     var hasAllMatches = true;

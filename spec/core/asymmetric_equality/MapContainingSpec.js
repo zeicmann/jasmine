@@ -173,16 +173,17 @@ describe('MapContaining', function() {
 
   it('does not match when actual is not a map', function() {
     var containingMap = new MapI([['foo', 'bar']]);
-    expect(new jasmineUnderTest.MapContaining(containingMap).asymmetricMatch('foo')).toBe(false);
-    expect(new jasmineUnderTest.MapContaining(containingMap).asymmetricMatch(-1)).toBe(false);
-    expect(new jasmineUnderTest.MapContaining(containingMap).asymmetricMatch({'foo': 'bar'})).toBe(false);
+    var matchersUtil = new jasmineUnderTest.MatchersUtil([]);
+    expect(new jasmineUnderTest.MapContaining(containingMap).asymmetricMatch('foo', matchersUtil)).toBe(false);
+    expect(new jasmineUnderTest.MapContaining(containingMap).asymmetricMatch(-1, matchersUtil)).toBe(false);
+    expect(new jasmineUnderTest.MapContaining(containingMap).asymmetricMatch({'foo': 'bar'}, matchersUtil)).toBe(false);
   });
 
   it('throws an error when sample is not a map', function() {
     var matchersUtil = new jasmineUnderTest.MatchersUtil([]);
 
     expect(function() {
-      new jasmineUnderTest.MapContaining({'foo': 'bar'}).asymmetricMatch(new Map());
+      new jasmineUnderTest.MapContaining({'foo': 'bar'}).asymmetricMatch(new Map(), matchersUtil);
     }).toThrowError(/You must provide a map/);
   });
 

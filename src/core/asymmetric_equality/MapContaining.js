@@ -1,13 +1,13 @@
 getJasmineRequireObj().MapContaining = function(j$) {
   function MapContaining(sample) {
-    if (!j$.isMap(sample)) {
-      throw new Error('You must provide a map to `mapContaining`, not ' + j$.pp(sample));
-    }
-
     this.sample = sample;
   }
 
   MapContaining.prototype.asymmetricMatch = function(other, matchersUtil) {
+    if (!j$.isMap(this.sample)) {
+      throw new Error('You must provide a map to `mapContaining`, not ' + matchersUtil.pp(this.sample));
+    }
+
     if (!j$.isMap(other)) return false;
 
     var hasAllMatches = true;

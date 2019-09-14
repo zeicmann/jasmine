@@ -841,7 +841,7 @@ describe("matchersUtil", function() {
     });
   });
 
-  describe("buildMessage", function() {
+  describe("buildFailureMessage", function() {
 
     it("builds an English sentence for a failure case", function() {
       var matchersUtil = new jasmineUnderTest.MatchersUtil([]),
@@ -869,6 +869,25 @@ describe("matchersUtil", function() {
         message = matchersUtil.buildFailureMessage(name, false, actual, "quux", "corge");
 
       expect(message).toEqual("Expected 'foo' to bar 'quux', 'corge'.");
+    });
+
+    it('uses the injected pretty-printer', function () {
+      var pp = jasmine.createSpy('injected pretty-printer').and.callFake(function (obj) {
+          return 'PP:' + obj;
+        }),
+        matchersUtil = new jasmineUnderTest.MatchersUtil([], pp),
+        actual = "foo",
+        name = "toBar",
+        message;
+
+      spyOn(jasmineUnderTest, 'pp');
+      message = matchersUtil.buildFailureMessage(name, false, actual, "quux", "corge");
+
+      expect(pp).toHaveBeenCalledWith('foo');
+      expect(pp).toHaveBeenCalledWith('quux');
+      expect(pp).toHaveBeenCalledWith('corge');
+      expect(jasmineUnderTest.pp).not.toHaveBeenCalled();
+      expect(message).toEqual("Expected PP:foo to bar PP:quux, PP:corge.");
     });
   });
 });

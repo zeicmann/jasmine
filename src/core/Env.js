@@ -294,6 +294,21 @@ getJasmineRequireObj().Env = function(j$) {
       }
     };
 
+    function getPrettyPrint() {
+      var rr = runnableResources[currentRunnable().id];
+
+      if (!rr.prettyPrinter) {
+        // TODO: Inject custom pretty printers here, when we have them.
+        rr.prettyPrint = function(value) {
+          var prettyPrinter = new j$.PrettyPrinter();
+          prettyPrinter.format(value);
+          return prettyPrinter.stringParts.join('');
+        };
+      }
+
+      return rr.prettyPrint;
+    }
+
     this.getMatchersUtil = function() {
       if (!currentRunnable()) {
         return new j$.MatchersUtil([]);
@@ -301,7 +316,8 @@ getJasmineRequireObj().Env = function(j$) {
 
       if (!runnableResources[currentRunnable().id].matchersUtil) {
         runnableResources[currentRunnable().id].matchersUtil = j$.MatchersUtil(
-          runnableResources[currentRunnable().id].customEqualityTesters
+          runnableResources[currentRunnable().id].customEqualityTesters,
+          getPrettyPrint()
         );
       }
 

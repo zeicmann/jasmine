@@ -1,4 +1,4 @@
-getJasmineRequireObj().pp = function(j$) {
+getJasmineRequireObj().PrettyPrinter = function(j$) {
   function PrettyPrinter() {
     this.ppNestLevel_ = 0;
     this.seen = [];
@@ -360,8 +360,13 @@ getJasmineRequireObj().pp = function(j$) {
 
     return extraKeys;
   }
+
+  return PrettyPrinter;
+};
+
+getJasmineRequireObj().pp = function(j$) {
   return function(value) {
-    var prettyPrinter = new PrettyPrinter();
+    var prettyPrinter = new j$.PrettyPrinter();
     prettyPrinter.format(value);
     return prettyPrinter.stringParts.join('');
   };

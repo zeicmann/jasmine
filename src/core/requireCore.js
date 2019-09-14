@@ -72,6 +72,7 @@ var getJasmineRequireObj = (function(jasmineGlobal) {
     j$.ArrayWithExactContents = jRequire.ArrayWithExactContents(j$);
     j$.MapContaining = jRequire.MapContaining(j$);
     j$.SetContaining = jRequire.SetContaining(j$);
+    j$.PrettyPrinter = jRequire.PrettyPrinter(j$);
     j$.pp = jRequire.pp(j$);
     j$.QueueRunner = jRequire.QueueRunner(j$);
     j$.ReportDispatcher = jRequire.ReportDispatcher(j$);

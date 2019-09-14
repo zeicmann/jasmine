@@ -297,13 +297,9 @@ getJasmineRequireObj().Env = function(j$) {
     function getPrettyPrint() {
       var rr = runnableResources[currentRunnable().id];
 
-      if (!rr.prettyPrinter) {
+      if (!rr.prettyPrint) {
         // TODO: Inject custom pretty printers here, when we have them.
-        rr.prettyPrint = function(value) {
-          var prettyPrinter = new j$.PrettyPrinter();
-          prettyPrinter.format(value);
-          return prettyPrinter.stringParts.join('');
-        };
+        rr.prettyPrint = j$.makePrettyPrinter();
       }
 
       return rr.prettyPrint;

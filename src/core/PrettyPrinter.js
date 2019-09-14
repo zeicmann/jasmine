@@ -1,4 +1,4 @@
-getJasmineRequireObj().PrettyPrinter = function(j$) {
+getJasmineRequireObj().makePrettyPrinter = function(j$) {
   function PrettyPrinter() {
     this.ppNestLevel_ = 0;
     this.seen = [];
@@ -33,7 +33,7 @@ getJasmineRequireObj().PrettyPrinter = function(j$) {
       } else if (value === j$.getGlobal()) {
         this.emitScalar('<global>');
       } else if (value.jasmineToString) {
-        this.emitScalar(value.jasmineToString());
+        this.emitScalar(value.jasmineToString(makePrettyPrinter()));
       } else if (typeof value === 'string') {
         this.emitString(value);
       } else if (j$.isSpy(value)) {
@@ -361,13 +361,17 @@ getJasmineRequireObj().PrettyPrinter = function(j$) {
     return extraKeys;
   }
 
-  return PrettyPrinter;
-};
+  function makePrettyPrinter() {
+    return function(value) {
+      var prettyPrinter = new PrettyPrinter();
+      prettyPrinter.format(value);
+      return prettyPrinter.stringParts.join('');
+    };
+  }
 
-getJasmineRequireObj().pp = function(j$) {
-  return function(value) {
-    var prettyPrinter = new j$.PrettyPrinter();
-    prettyPrinter.format(value);
-    return prettyPrinter.stringParts.join('');
+  return function() {
+    // TODO: this is where we'll take custom formatters as args
+    // and pass them to the PrettyPrinter.
+    return makePrettyPrinter();
   };
 };

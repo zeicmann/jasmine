@@ -120,8 +120,18 @@ describe('SetContaining', function() {
   });
 
   it('defines a `jasmineToString` method', function() {
-    var containing = new jasmineUnderTest.SetContaining(new Set());
+    var sample = new Set();
+    var containing = new jasmineUnderTest.SetContaining(sample);
+    var pp = jasmine.createSpy('pp').and.returnValue('pp result');
 
-    expect(containing.jasmineToString()).toMatch(/^<jasmine\.setContaining/);
+    expect(containing.jasmineToString(pp)).toEqual('<jasmine.setContaining(pp result)>');
+    expect(pp).toHaveBeenCalledWith(sample);
   });
+
+  // TODO this isn't really the right place for this test
+  it('defines a `jasmineToString` method that integrates', function() {
+    var env = new jasmineUnderTest.Env();
+    var obj = { s: new jasmineUnderTest.SetContaining(new Set())};
+    expect(jasmineUnderTest.pp(obj)).toContain('<jasmine.setContaining(Set(  ))>')
+  })
 });

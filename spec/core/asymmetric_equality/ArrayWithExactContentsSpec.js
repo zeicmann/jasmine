@@ -32,8 +32,10 @@ describe("ArrayWithExactContents", function() {
 
   it("jasmineToStrings itself", function() {
     var matcher = new jasmineUnderTest.ArrayWithExactContents([]);
+    var pp = jasmine.createSpy('pp').and.returnValue('pp result');
 
-    expect(matcher.jasmineToString()).toMatch("<jasmine.arrayWithExactContents");
+    expect(matcher.jasmineToString(pp)).toEqual("<jasmine.arrayWithExactContents pp result>");
+    expect(pp).toHaveBeenCalledWith([]);
   });
 
   it("uses custom equality testers", function() {

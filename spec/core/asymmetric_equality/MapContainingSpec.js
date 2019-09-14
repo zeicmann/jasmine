@@ -189,7 +189,9 @@ describe('MapContaining', function() {
 
   it('defines a `jasmineToString` method', function() {
     var containing = new jasmineUnderTest.MapContaining(new Map());
+    var pp = jasmine.createSpy('pp').and.returnValue('pp result');
 
-    expect(containing.jasmineToString()).toMatch(/^<jasmine\.mapContaining/);
+    expect(containing.jasmineToString(pp)).toEqual("<jasmine.mapContaining(pp result)>");
+    expect(pp).toHaveBeenCalledWith(new Map());
   });
 });

@@ -45,8 +45,10 @@ describe("ArrayContaining", function() {
 
   it("jasmineToStrings itself", function() {
     var containing = new jasmineUnderTest.ArrayContaining([]);
+    var pp = jasmine.createSpy('pp').and.returnValue('pp result');
 
-    expect(containing.jasmineToString()).toMatch("<jasmine.arrayContaining");
+    expect(containing.jasmineToString(pp)).toEqual("<jasmine.arrayContaining(pp result)>");
+    expect(pp).toHaveBeenCalledWith([]);
   });
 
   it("uses custom equality testers", function() {

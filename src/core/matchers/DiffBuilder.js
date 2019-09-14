@@ -1,5 +1,8 @@
 getJasmineRequireObj().DiffBuilder = function(j$) {
-  return function DiffBuilder() {
+  return function DiffBuilder(pp) {
+    if (!j$.isFunction_(pp)) {
+      throw new Error("DiffBuilder's argument must be a function")
+    }
     var path = new j$.ObjectPath(),
         mismatches = [];
 
@@ -24,9 +27,9 @@ getJasmineRequireObj().DiffBuilder = function(j$) {
     function defaultFormatter (actual, expected, path) {
       return 'Expected ' +
         path + (path.depth() ? ' = ' : '') +
-        j$.pp(actual) +
+        pp(actual) +
         ' to equal ' +
-        j$.pp(expected) +
+        pp(expected) +
         '.';
     }
   };

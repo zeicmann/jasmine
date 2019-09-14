@@ -13,6 +13,7 @@ describe('toEqual', function() {
   it('delegates to equals function', function() {
     var util = {
         equals: jasmine.createSpy('delegated-equals').and.returnValue(true),
+        pp: function() { return ''; },
         buildFailureMessage: function() {
           return 'does not matter';
         },

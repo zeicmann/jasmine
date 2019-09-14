@@ -1,13 +1,13 @@
 describe("DiffBuilder", function() {
   it("records the actual and expected objects", function() {
-    var diffBuilder = jasmineUnderTest.DiffBuilder();
+    var diffBuilder = jasmineUnderTest.DiffBuilder(jasmineUnderTest.pp);
     diffBuilder.record({x: 'actual'}, {x: 'expected'});
 
     expect(diffBuilder.getMessage()).toEqual("Expected Object({ x: 'actual' }) to equal Object({ x: 'expected' }).");
   });
 
   it("prints the path at which the difference was found", function() {
-    var diffBuilder = jasmineUnderTest.DiffBuilder();
+    var diffBuilder = jasmineUnderTest.DiffBuilder(jasmineUnderTest.pp);
 
     diffBuilder.withPath('foo', function() {
       diffBuilder.record({x: 'actual'}, {x: 'expected'});
@@ -17,7 +17,7 @@ describe("DiffBuilder", function() {
   });
 
   it("prints multiple messages, separated by newlines", function() {
-    var diffBuilder = jasmineUnderTest.DiffBuilder();
+    var diffBuilder = jasmineUnderTest.DiffBuilder(jasmineUnderTest.pp);
 
     diffBuilder.withPath('foo', function() {
       diffBuilder.record(1, 2);
@@ -32,7 +32,7 @@ describe("DiffBuilder", function() {
   });
 
   it("allows customization of the message", function() {
-    var diffBuilder = jasmineUnderTest.DiffBuilder();
+    var diffBuilder = jasmineUnderTest.DiffBuilder(jasmineUnderTest.pp);
 
     function darthVaderFormatter(actual, expected, path) {
       return "I find your lack of " + expected + " disturbing. (was " + actual + ", at " + path + ")"

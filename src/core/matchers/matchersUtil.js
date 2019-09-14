@@ -93,9 +93,19 @@ getJasmineRequireObj().MatchersUtil = function(j$) {
       }
     }
 
-    // TODO: figure out what to do about diffBuilder's position in the argument list
-    // This is de facto documented and we can't just break it.
-    function equals(a, b, customTesters, diffBuilder) {
+    // TODO: Remove the fourth argument in 4.0.
+    function equals(a, b, customTestersOrDiffBuilder, diffBuilder) {
+      var customTesters;
+
+      if (diffBuilder) {
+        j$.getEnv().deprecated('MatchersUtil#equals now takes a diff builder as its third argument, not fourth.');
+        customTesters = customTestersOrDiffBuilder;
+      } else if (isDiffBuilder(customTestersOrDiffBuilder)) {
+        diffBuilder = customTestersOrDiffBuilder;
+      } else {
+        customTesters = customTestersOrDiffBuilder;
+      }
+
       if (customTesters) {
         j$.getEnv().deprecated('Passing custom equality testers to MatchersUtil#equals is deprecated');
         return new j$.MatchersUtil(customTesters).equals(a, b, undefined, diffBuilder);
@@ -488,4 +498,10 @@ getJasmineRequireObj().MatchersUtil = function(j$) {
       return formatted;
     }
   };
+
+  function isDiffBuilder(obj) {
+    return obj &&
+      typeof obj.record === 'function' &&
+      typeof obj.withPath === 'function';
+  }
 };

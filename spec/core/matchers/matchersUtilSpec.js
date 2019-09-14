@@ -708,6 +708,51 @@ describe("matchersUtil", function() {
         expect(['foo']).toEqual(['foo']);
       });
     });
+
+    describe('When the third argument is a diff builder', function() {
+      it('uses the diff builder', function() {
+        var matchersUtil = new jasmineUnderTest.MatchersUtil([]);
+        var diffBuilder = jasmine.createSpyObj('diffBuilder', ['record', 'withPath']);
+        matchersUtil.equals('a', 'b', diffBuilder);
+        expect(diffBuilder.record).toHaveBeenCalledWith('a', 'b');
+      });
+
+      it('does not log deprecation warnings', function() {
+        spyOn(jasmineUnderTest.getEnv(), 'deprecated');
+        var matchersUtil = new jasmineUnderTest.MatchersUtil([]);
+        var diffBuilder = jasmine.createSpyObj('diffBuilder', ['record', 'withPath']);
+        matchersUtil.equals('a', 'b', diffBuilder);
+
+        expect(jasmineUnderTest.getEnv().deprecated).not.toHaveBeenCalled();
+      });
+    });
+
+
+    describe('When the fourth argument is a diff builder', function() {
+      // Remove in 4.0.
+
+      it('uses the diff builder', function() {
+        spyOn(jasmineUnderTest.getEnv(), 'deprecated');
+        var matchersUtil = new jasmineUnderTest.MatchersUtil([]);
+        var diffBuilder = jasmine.createSpyObj('diffBuilder', ['record', 'withPath']);
+        matchersUtil.equals('a', 'b', [], diffBuilder);
+        expect(diffBuilder.record).toHaveBeenCalledWith('a', 'b');
+      });
+
+      it('logs deprecation warnings', function() {
+        var deprecated = spyOn(jasmineUnderTest.getEnv(), 'deprecated');
+        var matchersUtil = new jasmineUnderTest.MatchersUtil([]);
+        var diffBuilder = jasmine.createSpyObj('diffBuilder', ['record', 'withPath']);
+        matchersUtil.equals('a', 'b', [], diffBuilder);
+
+        expect(deprecated).toHaveBeenCalledWith(
+          'MatchersUtil#equals now takes a diff builder as its third argument, not fourth.'
+        );
+        expect(deprecated).toHaveBeenCalledWith(
+          'Passing custom equality testers to MatchersUtil#equals is deprecated'
+        );
+      });
+    });
   });
 
   describe("contains", function() {

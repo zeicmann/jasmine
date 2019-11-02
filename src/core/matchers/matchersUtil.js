@@ -8,7 +8,16 @@ getJasmineRequireObj().matchersUtil = function(j$) {
       customTesters = customTesters || [];
 
       if (j$.isSet(haystack)) {
-        return haystack.has(needle);
+        var found = false;
+
+        j$.util.forEachBreakable(haystack, function(breakLoop, valueInHaystack) {
+          if (equals(valueInHaystack, needle, customTesters)) {
+            found = true;
+            breakLoop();
+          }
+        });
+
+        return found;
       }
 
       if ((Object.prototype.toString.apply(haystack) === '[object Array]') ||

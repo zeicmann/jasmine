@@ -686,14 +686,13 @@ describe("matchersUtil", function() {
       expect(jasmineUnderTest.matchersUtil.contains(set, setItem)).toBe(true);
     });
 
-    // documenting current behavior
-    it("fails (!) for objects that equal to a set member", function() {
+    it("passes for objects that equal to a set member", function() {
       jasmine.getEnv().requireFunctioningSets();
 
       var set = new Set();
       set.add({'foo': 'bar'});
 
-      expect(jasmineUnderTest.matchersUtil.contains(set, {'foo': 'bar'})).toBe(false);
+      expect(jasmineUnderTest.matchersUtil.contains(set, {'foo': 'bar'})).toBe(true);
     });
   });
 

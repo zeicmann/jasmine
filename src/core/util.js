@@ -137,7 +137,7 @@ getJasmineRequireObj().util = function(j$) {
   StopIteration.prototype = Object.create(Error.prototype);
   StopIteration.prototype.constructor = StopIteration;
 
-  // useful for maps and sets since `forEach` is the only IE11-compatible way to iterate them
+  // useful for maps and sets since `forEach` is the only IE-compatible way to iterate them
   util.forEachBreakable = function(iterable, iteratee) {
     function breakLoop() {
       throw new StopIteration();

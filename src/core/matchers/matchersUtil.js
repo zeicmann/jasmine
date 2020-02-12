@@ -28,17 +28,9 @@ getJasmineRequireObj().MatchersUtil = function(j$) {
    * @name MatchersUtil#contains
    * @param {*} haystack The collection to search
    * @param {*} needle The value to search for
-   * @param [customTesters] An array of custom equality testers. Deprecated.
-   * As of 3.6 this parameter no longer needs to be passed. It will be removed in 4.0.
    * @returns {boolean} True if `needle` was found in `haystack`
    */
-  MatchersUtil.prototype.contains = function(haystack, needle, customTesters) {
-    if (customTesters) {
-      j$.getEnv().deprecatedOnceWithStack('Passing custom equality testers ' +
-        'to MatchersUtil#contains is deprecated. ' +
-        'See <https://jasmine.github.io/tutorials/upgrading_to_4.0> for details.');
-    }
-
+  MatchersUtil.prototype.contains = function(haystack, needle) {
     if (j$.isSet(haystack)) {
       return haystack.has(needle);
     }
@@ -47,7 +39,7 @@ getJasmineRequireObj().MatchersUtil = function(j$) {
       (!!haystack && !haystack.indexOf))
     {
       for (var i = 0; i < haystack.length; i++) {
-        if (this.equals(haystack[i], needle, customTesters)) {
+        if (this.equals(haystack[i], needle)) {
           return true;
         }
       }
@@ -83,29 +75,26 @@ getJasmineRequireObj().MatchersUtil = function(j$) {
     return message + '.';
   };
 
-  MatchersUtil.prototype.asymmetricDiff_ = function(a, b, aStack, bStack, customTesters, diffBuilder) {
+  MatchersUtil.prototype.asymmetricDiff_ = function(a, b, aStack, bStack, diffBuilder) {
     if (j$.isFunction_(b.valuesForDiff_)) {
       var values = b.valuesForDiff_(a, this.pp);
-      this.eq_(values.other, values.self, aStack, bStack, customTesters, diffBuilder);
+      this.eq_(values.other, values.self, aStack, bStack, diffBuilder);
     } else {
       diffBuilder.recordMismatch();
     }
   };
 
-  MatchersUtil.prototype.asymmetricMatch_ = function(a, b, aStack, bStack, customTesters, diffBuilder) {
+  MatchersUtil.prototype.asymmetricMatch_ = function(a, b, aStack, bStack, diffBuilder) {
     var asymmetricA = j$.isAsymmetricEqualityTester_(a),
         asymmetricB = j$.isAsymmetricEqualityTester_(b),
-        shim,
         result;
 
     if (asymmetricA === asymmetricB) {
       return undefined;
     }
 
-    shim = j$.asymmetricEqualityTesterArgCompatShim(this, customTesters);
-
     if (asymmetricA) {
-      result = a.asymmetricMatch(b, shim);
+      result = a.asymmetricMatch(b, this);
       if (!result) {
         diffBuilder.recordMismatch();
       }
@@ -113,9 +102,9 @@ getJasmineRequireObj().MatchersUtil = function(j$) {
     }
 
     if (asymmetricB) {
-      result = b.asymmetricMatch(a, shim);
+      result = b.asymmetricMatch(a, this);
       if (!result) {
-        this.asymmetricDiff_(a, b, aStack, bStack, customTesters, diffBuilder);
+        this.asymmetricDiff_(a, b, aStack, bStack, diffBuilder);
       }
       return result;
     }
@@ -127,51 +116,27 @@ getJasmineRequireObj().MatchersUtil = function(j$) {
    * @name MatchersUtil#equals
    * @param {*} a The first value to compare
    * @param {*} b The second value to compare
-   * @param [customTesters] An array of custom equality testers. Deprecated.
-   * As of 3.6 this parameter no longer needs to be passed. It will be removed in 4.0.
    * @returns {boolean} True if the values are equal
    */
-  MatchersUtil.prototype.equals = function(a, b, customTestersOrDiffBuilder, diffBuilderOrNothing) {
-    var customTesters, diffBuilder;
-
-    if (isDiffBuilder(customTestersOrDiffBuilder)) {
-      diffBuilder = customTestersOrDiffBuilder;
-    } else {
-      if (customTestersOrDiffBuilder) {
-        j$.getEnv().deprecatedOnceWithStack('Passing custom equality testers ' +
-          'to MatchersUtil#equals is deprecated. ' +
-          'See <https://jasmine.github.io/tutorials/upgrading_to_4.0> for details.');
-      }
-
-      if (diffBuilderOrNothing) {
-        j$.getEnv().deprecatedOnceWithStack('Diff builder should be passed ' +
-          'as the third argument to MatchersUtil#equals, not the fourth. ' +
-          'See <https://jasmine.github.io/tutorials/upgrading_to_4.0> for details.');
-      }
-
-      customTesters = customTestersOrDiffBuilder;
-      diffBuilder = diffBuilderOrNothing;
-    }
-
-    customTesters = customTesters || this.customTesters_;
+  MatchersUtil.prototype.equals = function(a, b, diffBuilder) {
     diffBuilder = diffBuilder || j$.NullDiffBuilder();
     diffBuilder.setRoots(a, b);
 
-    return this.eq_(a, b, [], [], customTesters, diffBuilder);
+    return this.eq_(a, b, [], [], diffBuilder);
   };
 
   // Equality function lovingly adapted from isEqual in
   //   [Underscore](http://underscorejs.org)
-  MatchersUtil.prototype.eq_ = function(a, b, aStack, bStack, customTesters, diffBuilder) {
+  MatchersUtil.prototype.eq_ = function(a, b, aStack, bStack, diffBuilder) {
     var result = true, self = this, i;
 
-    var asymmetricResult = this.asymmetricMatch_(a, b, aStack, bStack, customTesters, diffBuilder);
+    var asymmetricResult = this.asymmetricMatch_(a, b, aStack, bStack, diffBuilder);
     if (!j$.util.isUndefined(asymmetricResult)) {
       return asymmetricResult;
     }
 
-    for (i = 0; i < customTesters.length; i++) {
-      var customTesterResult = customTesters[i](a, b);
+    for (i = 0; i < this.customTesters_.length; i++) {
+      var customTesterResult = this.customTesters_[i](a, b);
       if (!j$.util.isUndefined(customTesterResult)) {
         if (!customTesterResult) {
           diffBuilder.recordMismatch();
@@ -302,7 +267,7 @@ getJasmineRequireObj().MatchersUtil = function(j$) {
             diffBuilder.recordMismatch(actualArrayIsLongerFormatter.bind(null, self.pp));
             result = false;
           } else {
-            result = self.eq_(i < aLength ? a[i] : void 0, i < bLength ? b[i] : void 0, aStack, bStack, customTesters, diffBuilder) && result;
+            result = self.eq_(i < aLength ? a[i] : void 0, i < bLength ? b[i] : void 0, aStack, bStack, diffBuilder) && result;
           }
         });
       }
@@ -343,12 +308,12 @@ getJasmineRequireObj().MatchersUtil = function(j$) {
           // otherwise explicitly look up the mapKey in the other Map since we want keys with unique
           // obj identity (that are otherwise equal) to not match.
           if (j$.isAsymmetricEqualityTester_(mapKey) || j$.isAsymmetricEqualityTester_(cmpKey) &&
-              this.eq_(mapKey, cmpKey, aStack, bStack, customTesters, j$.NullDiffBuilder())) {
+              this.eq_(mapKey, cmpKey, aStack, bStack, j$.NullDiffBuilder())) {
             mapValueB = b.get(cmpKey);
           } else {
             mapValueB = b.get(mapKey);
           }
-          result = this.eq_(mapValueA, mapValueB, aStack, bStack, customTesters, j$.NullDiffBuilder());
+          result = this.eq_(mapValueA, mapValueB, aStack, bStack, j$.NullDiffBuilder());
         }
       }
 
@@ -392,7 +357,7 @@ getJasmineRequireObj().MatchersUtil = function(j$) {
             otherValue = otherValues[l];
             prevStackSize = baseStack.length;
             // compare by value equality
-            found = this.eq_(baseValue, otherValue, baseStack, otherStack, customTesters, j$.NullDiffBuilder());
+            found = this.eq_(baseValue, otherValue, baseStack, otherStack, j$.NullDiffBuilder());
             if (!found && prevStackSize !== baseStack.length) {
               baseStack.splice(prevStackSize);
               otherStack.splice(prevStackSize);
@@ -441,7 +406,7 @@ getJasmineRequireObj().MatchersUtil = function(j$) {
       }
 
       diffBuilder.withPath(key, function() {
-        if(!self.eq_(a[key], b[key], aStack, bStack, customTesters, diffBuilder)) {
+        if(!self.eq_(a[key], b[key], aStack, bStack, diffBuilder)) {
           result = false;
         }
       });

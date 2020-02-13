@@ -690,11 +690,12 @@ describe("matchersUtil", function() {
 
     describe("when running in an environment with array polyfills", function() {
       var findIndexDescriptor = Object.getOwnPropertyDescriptor(Array.prototype, 'findIndex');
-      if (!findIndexDescriptor) {
-        return;
-      }
 
       beforeEach(function() {
+        if (!findIndexDescriptor) {
+          jasmine.getEnv().pending('Environment does not have a property descriptor for Array.prototype.findIndex');
+        }
+
         Object.defineProperty(Array.prototype, 'findIndex', {
           enumerable: true,
           value: function (predicate) {
